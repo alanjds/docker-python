@@ -1,6 +1,17 @@
 # Inherit from Heroku's stack
 FROM heroku/cedar:14
 
+# Install lib dependencies
+RUN apt-get update && apt-get install -y \
+    g++ \
+    uuid \
+    uuid-dev \
+    libblas-dev \
+    liblapack-dev \
+    libatlas-base-dev \
+    libjpeg-dev \
+    gfortran
+
 # Internally, we arbitrarily use port 3000
 ENV PORT 3000
 # Which version of Python?
