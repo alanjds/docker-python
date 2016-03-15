@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y \
     g++ \
     uuid \
     uuid-dev \
+    libffi-dev \
     libblas-dev \
     liblapack-dev \
     libatlas-base-dev \
