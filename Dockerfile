@@ -9,9 +9,15 @@ RUN apt-get update && apt-get install -y \
     libffi-dev \
     libblas-dev \
     liblapack-dev \
-    libatlas3-base-dev \
+    libatlas-base-dev \
     libjpeg-dev \
     gfortran
+
+# Save scipy lib dependencies
+RUN mkdir -p /app/.heroku/vendor/lib
+RUN cp -ra -t /app/.heroku/vendor/lib/ /usr/lib/libblas
+RUN cp -ra -t /app/.heroku/vendor/lib/ /usr/lib/lapack
+RUN dpkg -L libatlas-base-dev | grep '/usr/lib/'| grep -v '/usr/lib/atlas-base/' | xargs cp -ra -t /app/.heroku/vendor/lib/
 
 # Save some disk space
 RUN apt-get clean
@@ -39,7 +45,6 @@ RUN curl -s https://lang-python.s3.amazonaws.com/cedar-14/runtimes/$PYTHON_VERSI
 
 # Install Pip & Setuptools
 RUN curl -s https://bootstrap.pypa.io/get-pip.py | /app/.heroku/python/bin/python
-
 
 # Export the Python environment variables in .profile.d
 RUN echo 'export PATH=$HOME/.heroku/python/bin:$PATH PYTHONUNBUFFERED=true PYTHONHOME=/app/.heroku/python LIBRARY_PATH=/app/.heroku/vendor/lib:/app/.heroku/python/lib:$LIBRARY_PATH LD_LIBRARY_PATH=/app/.heroku/vendor/lib:/app/.heroku/python/lib:$LD_LIBRARY_PATH LANG=${LANG:-en_US.UTF-8} PYTHONHASHSEED=${PYTHONHASHSEED:-random} PYTHONPATH=${PYTHONPATH:-/app/user/}' > /app/.profile.d/python.sh
