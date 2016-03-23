@@ -14,10 +14,10 @@ RUN apt-get update && apt-get install -y \
     gfortran
 
 # Save scipy lib dependencies
-RUN mkdir -p /app/.heroku/vendor/lib
-RUN cp -ra -t /app/.heroku/vendor/lib/ /usr/lib/libblas
-RUN cp -ra -t /app/.heroku/vendor/lib/ /usr/lib/lapack
-RUN dpkg -L libatlas-base-dev | grep '/usr/lib/'| grep -v '/usr/lib/atlas-base/' | xargs cp -ra -t /app/.heroku/vendor/lib/
+RUN mkdir -p /app/.heroku/python/lib
+RUN cp -ra -t /app/.heroku/python/lib/ /usr/lib/libblas
+RUN cp -ra -t /app/.heroku/python/lib/ /usr/lib/lapack
+RUN dpkg -L libatlas-base-dev | grep '/usr/lib/'| grep -v '/usr/lib/atlas-base/' | xargs cp -ra -t /app/.heroku/python/lib/
 
 # Save some disk space
 RUN apt-get clean
