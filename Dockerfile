@@ -19,8 +19,8 @@ RUN mkdir -p /app/.heroku/python/lib
 RUN cp -ra -t /app/.heroku/python/lib/ /usr/lib/libblas
 RUN cp -ra -t /app/.heroku/python/lib/ /usr/lib/lapack
 RUN dpkg -L libatlas-base-dev | grep '/usr/lib/'| grep -v '/usr/lib/atlas-base/' | xargs cp -ra -t /app/.heroku/python/lib/
-RUN cd /app/.heroku/python/lib && cp -n -s atlas-base/* ./ || true
 RUN dpkg -L libgfortran3 | grep '.so' | xargs cp -ra -t /app/.heroku/python/lib/
+RUN cd /app/.heroku/python/lib && cp -n -s libblas/* lapack/* atlas-base/* ./ || true
 
 # Save some disk space
 RUN apt-get clean
